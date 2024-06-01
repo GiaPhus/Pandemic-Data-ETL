@@ -10,7 +10,5 @@ dataset/
 
 Covid_dataset/
 
-.env/
-
 __pycache__/
 
