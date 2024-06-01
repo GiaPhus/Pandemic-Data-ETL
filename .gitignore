@@ -1,0 +1,12 @@
+postgresql/
+
+minio/
+
+mysql/
+
+.ipynb_checkpoints
+
+dataset/
+
+Covid_dataset/
+

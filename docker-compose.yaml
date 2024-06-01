@@ -1,0 +1,182 @@
+version: "3.9"
+
+services:
+  minio:
+    container_name: "minio"
+    image: "minio/minio"
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    command: ["server", "/data", "--console-address", ":9001"]
+    volumes:
+      - ./minio:/data
+    env_file:
+      - .env
+    networks:
+      - de_network
+
+
+
+  de_mysql:
+    image: mysql:8.0
+    container_name: "de_mysql"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./dataset:/tmp/dataset
+      - ./mysql:/var/lib/mysql
+    env_file:
+      - .env
+    networks:
+      - de_network
+
+  de_psql:
+    image: postgres:15
+    container_name: "de_psql"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - de_network
+
+
+
+  de_dagster:
+    build:
+      context: ./dagster/
+    container_name: de_dagster
+    image: de_dagster
+  de_dagster_dagit:
+    image: de_dagster:latest
+    container_name: "dagster_dagit"
+    entrypoint:
+      - dagit
+      - -h
+      - "0.0.0.0"
+      - -p
+      - "3001"
+      - -w
+      - workspace.yaml
+    expose:
+      - "3001"
+    ports:
+      - "3001:3001"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./dagster_home:/opt/dagster/dagster_home
+    env_file:
+      - .env
+
+    networks:
+      - de_network
+
+  de_dagster_daemon:
+    image: de_dagster:latest
+    container_name: "dagster_daemon"
+    entrypoint:
+      - dagster-daemon
+      - run
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./dagster_home:/opt/dagster/dagster_home
+    env_file:
+      - .env
+    networks:
+      - de_network
+  spark-master:
+    build:
+      context: ./spark
+      dockerfile: ./Dockerfile
+    image: spark_master:latest
+    container_name: "spark-master"
+    environment:
+        - SPARK_MODE=master
+        - SPARK_LOCAL_IP=spark-master
+        - SPARK_RPC_AUTHENTICATION_ENABLED=no
+        - SPARK_RPC_ENCRYPTION_ENABLED=no
+        - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+        - SPARK_SSL_ENABLED=no
+    ports:
+      - "7077:7077"
+      - "8080:8080"
+    expose:
+      - "7077"
+    volumes:
+      - ./spark/spark-defaults.conf:/opt/bitnami/spark/conf/spark-defaults.conf
+    networks:
+      - de_network
+  spark-worker:
+    image: docker.io/bitnami/spark:3.4.3
+    deploy:
+      replicas: 2
+    command: start-slave.sh spark://spark-master:7077
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=4G
+      - SPARK_WORKER_CORES=2
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    networks:
+      - de_network
+    depends_on:
+      - spark-master
+
+  mc:
+    image: minio/mc
+    environment:
+      - AWS_ACCESS_KEY_ID=minio
+      - AWS_SECRET_ACCESS_KEY=minio123
+      - AWS_REGION=us-east-1
+    entrypoint: >-
+      /bin/sh -c " until (/usr/bin/mc config host add minio http://minio:9000 minio minio123) do echo '...waiting...' && sleep 1; done; /usr/bin/mc mb minio/warehouse ; /usr/bin/mc policy set public minio/warehouse; exit 0; "
+    depends_on:
+      - minio
+    networks:
+      - de_network
+
+  spark-notebook:
+    build:
+      context: ./notebooks
+      dockerfile: ./Dockerfile
+    user : root
+    container_name: spark-notebook
+    environment:
+      - JUPYTER_ENABLE_LAB="yes"
+      - GRANT_SUDO="yes"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./notebooks/spark-defaults.conf:/usr/local/spark/conf/spark-defaults.conf
+    ports:
+      - "8888:8888"
+      - "4040:4040"
+      - "8050:8050"
+    networks:
+      - de_network
+  etl_pipeline:
+    build:
+      context: ./etl_pipeline
+      dockerfile: ./Dockerfile
+    container_name: etl_pipeline
+    user: root
+    volumes:
+      - ./etl_pipeline:/opt/dagster/app
+      - ./etl_pipeline/spark-defaults.conf:/usr/local/spark/conf/spark-defaults.conf
+    env_file:
+      - .env
+    depends_on:
+      - spark-notebook
+
+    networks:
+      - de_network
+
+
+networks:
+  de_network:
+    driver: bridge
+    name: de_network
