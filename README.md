@@ -1,7 +1,7 @@
 
 # Pandemic-Data-ETL
 
-In this project, I'll guide you through designing an ETL (Extract, Transform, Load) pipeline focused on Covid19. Leveraging datasets sourced from Kaggle and Github, we'll extract relevant data, perform necessary transformations, and ultimately load the processed data into a data warehouse. This pipeline aims to streamline the analysis of Covid19-related data, providing insights and facilitating further research into the pandemic's impact.
+In this project, I will guide you through designing an ETL (Extract, Transform, Load) process focused on Covid19. Leveraging datasets sourced from Kaggle and Github, we will extract relevant data, perform necessary transformations, and finally load the processed data into the data warehouse. This process aims to streamline the analysis of Covid19-related data, providing insights into the impact of the pandemic.
 
 ![Covid19](images/covid19.jpg)
 
