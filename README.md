@@ -52,7 +52,9 @@ The project aims to develop a dashboard featuring a map visualization to depict 
 Clone repository:
 
 ###  Create env file
+```plaintext
 touch .env
+```
 
 Subsequently, populate the relevant information into .env as outlined above:
 ### Project Configuration
@@ -105,7 +107,7 @@ SPARK_MASTER_PORT=7077
 
 
 
-Check there's 11 running services:
+Check there's 10 running services:
 
 ![container in Docker](images/docker.png)
 
