@@ -7,8 +7,7 @@ In this project, I will guide you through designing an ETL (Extract, Transform, 
 
 
 # Goal of Project
-The goal of the project is to create a dashboard with a map visualization to illustrate the spread of death over time in each region, as well as the total number of confirmed deaths, recoveries, vaccinations, and ICU hospitalizations for each region.
-
+The project aims to develop a dashboard featuring a map visualization to depict the progression of death cases over time in each region. Additionally, it will display the total number of confirmed deaths, recoveries, for each region.
 # Pipeline Design
 
 ![DataFlow project](images/DataFlow.png)
