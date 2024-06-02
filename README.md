@@ -12,13 +12,13 @@ The project aims to develop a dashboard featuring a map visualization to depict 
 
 ![DataFlow project](images/DataFlow.png)
 
-### 1. We use docker to containerize the application and dagster to orchestrate assets.
-### 2. Covid19 data is downloaded from Kaggle and Github in .csv format, then imported into MySQL to simulate development data.
-### 3. Extract the table-formatted data above using pandas, and load it into MinIO.
-### 4. From MinIO, load data into Spark to transform from raw into silver & gold
-### 5. Convert Spark DataFrame to .parquet, and load back to MinIO
-### 6. Load gold layer into data warehouse - postgreSQL, creating the warehouse layer.
-### 7. Utilize Jupyter notebooks for data visualization using Spark and Plotly, and develop interactive dashboards using Dash.
+1. We use docker to containerize the application and dagster to orchestrate assets.
+2. Covid19 data is downloaded from Kaggle and Github in .csv format, then imported into MySQL to simulate development data.
+3. Extract the table-formatted data above using pandas, and load it into MinIO.
+4. From MinIO, load data into Spark to transform from raw into silver & gold
+5. Convert Spark DataFrame to .parquet, and load back to MinIO
+6. Load gold layer into data warehouse - postgreSQL, creating the warehouse layer.
+7. Utilize Jupyter notebooks for data visualization using Spark and Plotly, and develop interactive dashboards using Dash.
 
 # Data lineage
 1. General
