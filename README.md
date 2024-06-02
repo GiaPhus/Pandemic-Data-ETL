@@ -106,6 +106,7 @@ SPARK_MASTER_PORT=7077
 ```
 
 
+You can replace the infomation about user, password, ...
 
 Check there's 10 running services:
 
