@@ -136,10 +136,20 @@ Check there's 10 running services:
     http://localhost:8888 - Jupyter notebook
     http://localhost:8050 - Dash
 
+# Technologies Used:
+- Dagster: Empowering data orchestration for machine learning, analytics, and ETL pipelines.
+- Spark: Utilized as an open-source distributed computing system for large-scale data processing.
+- MySQL: A trusted open-source relational database management system.
+- PostgreSQL: Leveraged as an open-source relational database management system.
+- MinIO: Serving as an open-source object storage server.
+- Plotly: Offering an open-source library for interactive data visualization.
+- Dash: Enabling the development of analytical web applications through an open-source Python framework.
+- Pandas: Empowering data manipulation and analysis through an open-source Python library.
 
 # Source : 
-Kaggle Dataset: https://www.kaggle.com/datasets/imdevskp/corona-virus-report?select=country_wise_latest.csv
-Github Dataset: https://github.com/owid/covid-19-data/blob/master/public/data/archived/who/full_data.csv 
+Cre(Kaggle Dataset): https://www.kaggle.com/datasets/imdevskp/corona-virus-report?select=country_wise_latest.csv
+
+Cre(Github Dataset): https://github.com/owid/covid-19-data/blob/master/public/data/archived/who/full_data.csv 
 
 
 
