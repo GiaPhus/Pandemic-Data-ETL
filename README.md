@@ -53,7 +53,7 @@ The project aims to develop a dashboard featuring a map visualization to depict 
 
 ```bash
 git clone https://github.com/GiaPhus/Pandemic-Data-ETL.git
-cd spotify-data-pipeline
+cd Pandemic-Data-ETL
 ```
 
 ### Create env file
