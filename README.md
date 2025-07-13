@@ -49,13 +49,14 @@ The project aims to develop a dashboard featuring a map visualization to depict 
 - Load the assets from the gold layer into PostgreSQL.
 
 # Setup local infrastructure
-Clone repository:
+### Clone repository:
 
 ```bash
-git clone https://github.com/your-username/spotify-data-pipeline.git
+git clone https://github.com/GiaPhus/Pandemic-Data-ETL.git
 cd spotify-data-pipeline
+```
 
-###  Create env file
+### Create env file
 ```plaintext
 touch .env
 ```
