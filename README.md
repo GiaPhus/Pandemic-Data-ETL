@@ -51,6 +51,10 @@ The project aims to develop a dashboard featuring a map visualization to depict 
 # Setup local infrastructure
 Clone repository:
 
+```bash
+git clone https://github.com/your-username/spotify-data-pipeline.git
+cd spotify-data-pipeline
+
 ###  Create env file
 ```plaintext
 touch .env
